@@ -4,12 +4,9 @@ const app = express();
 const port  = 8080;
 const path = require('path')
 const mongoose = require('mongoose');
-
-
-//initializing body parser
-app.use(express.json({
-	extended:false
-}));
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine','hbs');
 
