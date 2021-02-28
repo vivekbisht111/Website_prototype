@@ -2,13 +2,20 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const User = require('../../models/users');
+const {body,validationResult} = require('express-validator');
 
-router.post('/',async (req,res)=>{
+router.post('/',body('username').isLength({min:3}),body('email').isEmail()
+,body('password').isLength({min:3}),async (req,res)=>{
     try{
 
-        console.log(req.body.username);
-        console.log(req.body.password);
-        console.log(req.body.email);
+        const errors = validationResult(req);
+        if(!errors.isEmpty())
+        {
+            res.status(400).json({errors:errors.array()});
+        }
+        // console.log(req.body.username);
+        // console.log(req.body.password);
+        // console.log(req.body.email);
         let u = new User({
             username : req.body.username,
             password : req.body.password,
