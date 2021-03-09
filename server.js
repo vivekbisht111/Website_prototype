@@ -22,6 +22,11 @@ app.get('/register',(req,res)=>{
   res.render('register');
 })
 
+app.get('/login',(req,res)=>{
+  res.render('login/login');
+})
+
+
 app.listen(port,()=>{
     console.log("server running...");
 })
