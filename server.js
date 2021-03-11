@@ -4,10 +4,12 @@ const app = express();
 const port  = 8080;
 const path = require('path')
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(cookieParser());
 app.set('view engine','hbs');
 
 // app.get('/',(req,res)=>{
@@ -19,7 +21,12 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/register',(req,res)=>{
-  res.render('register');
+  res.render('register/register');
+})
+
+app.get('/secret',(req,res)=>{
+  console.log(`The cookie at secret page :${req.cookies.jwt}`);
+  res.send(req.cookies.jwt);
 })
 
 app.get('/login',(req,res)=>{
