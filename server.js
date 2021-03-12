@@ -60,6 +60,7 @@ connectDB.once("open", function () {
 
 app.use("/api/register/user", require("./api/register/user"));
 app.use("/api/login/user", require("./api/login/user"));
+app.use("/logout", require("./api/logout"));
 //app.use('api/register/trader',require('./api/register/trader'));
 
 // mongouri mongodb+srv://bishtbeast:<password>@cluster0.jpqng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority

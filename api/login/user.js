@@ -5,8 +5,10 @@ const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
+
 router.use(express.json());
 router.use(cookieParser());
+
 router.post("/", body("username").isLength({ min: 3 }), async (req, res) => {
   try {
     const errors = validationResult(req);
