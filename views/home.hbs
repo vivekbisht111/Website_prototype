@@ -10,13 +10,19 @@
 </head>
 
 <body>
-  Home page
+  <h1>Home page</h1>
+  {{#if username}}
+  <button type="button" class="btn">
+    {{username}}
+  </button>
+  {{else}}
   <button type="button" class="btn btn-dark" onclick="window.location='register'">
     Register
   </button>
   <button type="button" class="btn" onclick="window.location='login'">
     Login
   </button>
+  {{/if}}
   <button type="button" class="btn" onclick="window.location='secret'">
     secret
   </button>
