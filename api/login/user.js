@@ -12,6 +12,7 @@ router.use(cookieParser());
 router.post("/", body("username").isLength({ min: 3 }), async (req, res) => {
   try {
     const errors = validationResult(req);
+    console.log(req.body.username);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }

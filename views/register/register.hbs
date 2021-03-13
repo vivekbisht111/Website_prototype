@@ -7,6 +7,18 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
     crossorigin="anonymous"></script>
+
+  <script>
+    function form_change_handler(e) {
+      if (e.checked) {
+        document.getElementById('frm').action = '/api/register/merchant';
+      }
+      else {
+        document.getElementById('frm').action = '/api/register/user';
+      }
+
+    }
+  </script>
 </head>
 
 <body>
@@ -14,7 +26,7 @@
     Register here!
     <small class="text-muted">coming soon...</small>
   </h3> --}}
-  <form method="POST" action="/api/register/user">
+  <form method="POST" action="/api/register/user" id="frm">
     <div class="mb-2">
       <label for="exampleInputEmail1" class="form-label">Username </label>
       <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -33,8 +45,8 @@
       <input type="password" name="password2" class="form-control" id="exampleInputPassword1">
     </div>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" onchange="form_change_handler(this)">
+      <label class="form-check-label" for="exampleCheck1">Register as a Merchant </label>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
