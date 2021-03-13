@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <title>Add a product</title>
+    <script>
+        function submitform() {
+            document.getElementById('frm').submit();
+            document.getElementById('frm').reset();
+            return false;
+        }
+    </script>
+</head>
+
+<body>
+    <form method="POST" action="/api/products/add_product" id="frm">
+        <div class="mb-2">
+            <label for="exampleInputEmail1" class="form-label">Product Category</label>
+            <input type="text" name="category" class="form-control" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+        </div>
+
+        <div class="mb-5">
+            <label for="exampleInputPassword1" class="form-label">Product Name</label>
+            <input type="text" name="name" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-6">
+            <label for="exampleInputPassword1" class="form-label">Description</label>
+            <input type="text" name="description" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-6">
+            <label for="exampleInputPassword1" class="form-label">stock</label>
+            <input type="number" name="stock" class="form-control" id="exampleInputPassword1">
+        </div>
+        <input type="button" value="submit" class="btn btn-primary" onclick="submitform()">
+    </form>
+</body>
+
+</html>

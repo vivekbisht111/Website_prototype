@@ -20,6 +20,7 @@ userSchema.methods.generateAuthToken = async function () {
         username: this.username,
         cart: this.cart,
         email: this.email,
+        role: "user",
       },
       process.env.secret_key
     );

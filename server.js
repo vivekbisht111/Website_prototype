@@ -6,33 +6,75 @@ const path = require("path");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const exhbs = require("express-handlebars");
 const User = require("./models/users");
 require("dotenv").config();
 var bodyParser = require("body-parser");
+const { mainModule } = require("process");
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.json());
 app.use(cookieParser());
-app.set("view engine", "hbs");
 
-// app.get('/',(req,res)=>{
-//     res.sendFile(path.join(__dirname+'/views/home.html'));
-// })
+/*const hbs = exhbs.create({
+  layoutsDir: path.join(__dirname + "views/mainLayout"),
+  partialsDir: path.join(__dirname + "views/partials"),
+  extname: ".hbs",
+});*/
+
+app.engine(
+  ".hbs",
+  exhbs({
+    defaultLayout: "main",
+    extname: ".hbs",
+  })
+);
+app.set("view engine", ".hbs");
 
 app.get("/", (req, res) => {
   if (req.cookies.jwt) {
     const active_user = jwt.verify(req.cookies.jwt, process.env.secret_key);
-    // console.log(`the active user is...${JSON.stringify(active_user)}`);
+    console.log(`the active user is...${JSON.stringify(active_user)}`);
     if (active_user) {
-      res.render("home", {
-        username: active_user.username,
-      });
+      if (active_user.role === "user") {
+        res.render("home", {
+          username: active_user.username,
+        });
+      } else {
+        res.render("home", {
+          merchantname: active_user.merchantname,
+        });
+      }
     }
-  } else res.render("home");
+  } else {
+    console.log("at home page..");
+    res.render("home");
+  }
 });
 
 app.get("/register", (req, res) => {
   res.render("register/register");
+});
+
+app.get("/add_product", (req, res) => {
+  res.render("products/add_product");
+});
+
+app.get("/cart", (req, res) => {
+  if (req.cookies.jwt) {
+    const active_user = jwt.verify(req.cookies.jwt, process.env.secret_key);
+    // console.log(`the active user is...${JSON.stringify(active_user)}`);
+    if (active_user) {
+      res.render("cart/user_cart", {
+        cart: active_user.cart,
+      });
+    }
+  } else
+    res.render("home", {
+      message: "Please log in first...",
+    });
 });
 
 app.get("/secret", (req, res) => {
@@ -59,8 +101,11 @@ connectDB.once("open", function () {
 });
 
 app.use("/api/register/user", require("./api/register/user"));
+app.use("/api/register/merchant", require("./api/register/merchant"));
 app.use("/api/login/user", require("./api/login/user"));
+app.use("/api/login/merchant", require("./api/login/merchant"));
 app.use("/logout", require("./api/logout"));
+app.use("/api/products/add_product", require("./api/products/add_product"));
 //app.use('api/register/trader',require('./api/register/trader'));
 
 // mongouri mongodb+srv://bishtbeast:<password>@cluster0.jpqng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
