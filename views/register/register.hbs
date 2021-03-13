@@ -18,6 +18,12 @@
       }
 
     }
+    function submitform() {
+      var fr = document.getElementById('frm');
+      fr.submit();
+      fr.reset();
+      return false;
+    }
   </script>
 </head>
 
@@ -48,7 +54,7 @@
       <input type="checkbox" class="form-check-input" id="exampleCheck1" onchange="form_change_handler(this)">
       <label class="form-check-label" for="exampleCheck1">Register as a Merchant </label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <input type="button" value="submit" class="btn btn-primary" onclick="submitform()">
   </form>
 
 </body>

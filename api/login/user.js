@@ -16,6 +16,7 @@ router.post("/", body("username").isLength({ min: 3 }), async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     const user = await Users.findOne({ username: req.body.username });
     console.log(user);
     if (user) {
