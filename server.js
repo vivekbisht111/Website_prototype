@@ -58,8 +58,8 @@ app.get("/register", (req, res) => {
   res.render("register/register");
 });
 
-app.get("/products", (req, res) => {
-  res.render("products/products");
+app.get("/add_product", (req, res) => {
+  res.render("products/add_product");
 });
 
 app.get("/cart", (req, res) => {
@@ -104,8 +104,8 @@ app.use("/api/register/user", require("./api/register/user"));
 app.use("/api/register/merchant", require("./api/register/merchant"));
 app.use("/api/login/user", require("./api/login/user"));
 app.use("/api/login/merchant", require("./api/login/merchant"));
-app.use("api/products", require("./api/products/products"));
 app.use("/logout", require("./api/logout"));
+app.use("/api/products/add_product", require("./api/products/add_product"));
 //app.use('api/register/trader',require('./api/register/trader'));
 
 // mongouri mongodb+srv://bishtbeast:<password>@cluster0.jpqng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
