@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   email: String,
-  cart: [],
+  cart: [{ pid: String, qty: Number, category: String }],
+  timestamp: { type: Date, default: Date.now },
 });
 
 //methods keyword is used when the function needs to be called from

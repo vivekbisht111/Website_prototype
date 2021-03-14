@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const exhbs = require("express-handlebars");
 const User = require("./models/users");
+const Products = require("./models/product");
 require("dotenv").config();
 var bodyParser = require("body-parser");
 const { mainModule } = require("process");
@@ -77,6 +78,19 @@ app.get("/cart", (req, res) => {
     });
 });
 
+app.get("/products", async (req, res) => {
+  try {
+    Products.find({}).then((products) => {
+      res.render("products/products", {
+        //individual objects need to be parsed as json...
+        p: products.map((product) => product.toJSON()),
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.get("/secret", (req, res) => {
   console.log(`The cookie at secret page :${req.cookies.jwt}`);
   res.send(req.cookies.jwt);
@@ -106,6 +120,7 @@ app.use("/api/login/user", require("./api/login/user"));
 app.use("/api/login/merchant", require("./api/login/merchant"));
 app.use("/logout", require("./api/logout"));
 app.use("/api/products/add_product", require("./api/products/add_product"));
+app.use("/add_to_cart", require("./api/products/add_to_cart.js"));
 //app.use('api/register/trader',require('./api/register/trader'));
 
 // mongouri mongodb+srv://bishtbeast:<password>@cluster0.jpqng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
