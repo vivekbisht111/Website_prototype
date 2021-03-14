@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
       name: String,
       description: String,
       stock: Number,
+      timestamp: { type: Date, default: Date.now },
     },
   ],
 });

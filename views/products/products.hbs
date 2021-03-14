@@ -9,7 +9,26 @@
 </head>
 
 <body>
-    {{products}}
+    {{#each p}}
+    <h2>
+        <li>{{category}}
+    </h2><br>
+    {{#products}}
+    <h3>Name: {{name}}</h3>
+    <h3>Description: {{description}}</h3>
+    <h3>Stock: {{stock}}</h3>
+    <br>
+    <form method="POST" id="frm" action="add_to_cart">
+        <input style="display: none;" type="text" value={{_id}} name="p_id">
+        <input style="display: none;" type="text" value={{../category}} name="category">
+        <input type="number" max={{stock}} name="quantity" value="1">
+        <button onclick="submitForm()">Add to cart</button>
+    </form>
+    <br>
+    {{/products}}
+    <br>
+    </li>
+    {{/each}}
 </body>
 
 </html>
