@@ -121,6 +121,7 @@ app.use("/api/login/merchant", require("./api/login/merchant"));
 app.use("/logout", require("./api/logout"));
 app.use("/api/products/add_product", require("./api/products/add_product"));
 app.use("/add_to_cart", require("./api/products/add_to_cart.js"));
+app.use("/remove_from_cart", require("./api/products/remove_from_cart"));
 //app.use('api/register/trader',require('./api/register/trader'));
 
 // mongouri mongodb+srv://bishtbeast:<password>@cluster0.jpqng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority

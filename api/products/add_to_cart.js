@@ -19,9 +19,25 @@ router.post("/", async (req, res) => {
         } else {
           const u = await User.findOne({ username: user.username });
           if (u) {
-            console.log(req.body.category);
-            console.log(req.body.quantity);
-            console.log(req.body.p_id);
+            const indexcheck = u.cart.findIndex((x) => x.pid === req.body.p_id);
+            if (indexcheck !== -1) {
+              let num = req.body.quantity;
+              var i;
+              for (i = 0; i < num; i++) {
+                u.cart[indexcheck].qty = u.cart[indexcheck].qty + 1;
+              }
+              await u.save();
+              console.log("product added to cart");
+            } else {
+              u.cart.push({
+                pid: req.body.p_id,
+                qty: req.body.quantity,
+                category: req.body.category,
+              });
+              console.log("product added to cart");
+              await u.save();
+            }
+
             const p = await Products.findOne({
               category: req.body.category,
             });
@@ -39,13 +55,12 @@ router.post("/", async (req, res) => {
             console.log(p.products[obj].stock);
             await p.save();
 
-            u.cart.push({
-              pid: req.body.p_id,
-              qty: req.body.quantity,
-              category: req.body.category,
+            res.clearCookie("jwt");
+            const token = await u.generateAuthToken();
+            res.cookie("jwt", token, {
+              expires: new Date(Date.now() + 120000),
+              httpOnly: true,
             });
-            console.log("product added to cart");
-            await u.save();
             res.redirect("/products");
           }
         }
