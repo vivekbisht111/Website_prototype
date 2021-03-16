@@ -38,22 +38,22 @@ router.post("/", async (req, res) => {
               await u.save();
             }
 
-            const p = await Products.findOne({
-              category: req.body.category,
-            });
-            console.log(p.products);
-            const obj = p.products.findIndex(
-              (x) => x._id.toString() === req.body.p_id
-            );
+            // const p = await Products.findOne({
+            //   category: req.body.category,
+            // });
+            // // console.log(p.products);
+            // const obj = p.products.findIndex(
+            //   (x) => x._id.toString() === req.body.p_id
+            // );
 
-            const num = req.body.quantity;
-            var i;
-            for (i = 0; i < num; i++) {
-              p.products[obj].stock = p.products[obj].stock - 1;
-            }
+            // const num = req.body.quantity;
+            // var i;
+            // for (i = 0; i < num; i++) {
+            //   p.products[obj].stock = p.products[obj].stock - 1;
+            // }
 
-            console.log(p.products[obj].stock);
-            await p.save();
+            // console.log(p.products[obj].stock);
+            // await p.save();
 
             res.clearCookie("jwt");
             const token = await u.generateAuthToken();
