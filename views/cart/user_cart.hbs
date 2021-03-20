@@ -6,8 +6,16 @@
 
 <body>
     {{#if cart}}
-    <h1>Cart ...</h1>
-    {{cart}}
+    {{#each cart}}
+    {{category}}<br>
+    {{qty}}<br>
+    {{pid}}<br><br>
+    <form method="POST" action="remove_from_cart">
+        <input type="text" value={{pid}} style="display: none;" name="pid">
+        <input type="submit" value="Remove from cart">
+    </form>
+    {{/each}}
+    <button onclick="window.location='place_order'">Place Order</button>
     {{else}}
     <h1>No cart...</h1>
     {{/if}}

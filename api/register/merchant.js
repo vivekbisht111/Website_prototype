@@ -21,7 +21,9 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-
+      if (req.body.password2 !== req.body.password) {
+        return res.status(200).json({ msg: "Passowrds do not match" });
+      }
       let u = new User({
         merchantname: req.body.username,
         password: req.body.password,
