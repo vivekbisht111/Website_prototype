@@ -81,10 +81,34 @@ app.get("/cart", (req, res) => {
 app.get("/products", async (req, res) => {
   try {
     Products.find({}).then((products) => {
-      res.render("products/products", {
-        //individual objects need to be parsed as json...
-        p: products.map((product) => product.toJSON()),
-      });
+      if (req.cookies.jwt) {
+        const active_user = jwt.verify(req.cookies.jwt, process.env.secret_key);
+        console.log(`the active user is...${JSON.stringify(active_user)}`);
+        if (active_user) {
+          if (active_user.role === "user") {
+            res.render("products/products", {
+              //individual objects need to be parsed as json...
+              p: products.map((product) => product.toJSON()),
+            });
+          } else {
+            res.render("products/products", {
+              //individual objects need to be parsed as json...
+              p: products.map((product) => product.toJSON()),
+              m: true,
+            });
+          }
+        } else {
+          res.render("products/products", {
+            //individual objects need to be parsed as json...
+            p: products.map((product) => product.toJSON()),
+          });
+        }
+      } else {
+        res.render("products/products", {
+          //individual objects need to be parsed as json...
+          p: products.map((product) => product.toJSON()),
+        });
+      }
     });
   } catch (error) {
     console.log(error);
@@ -123,6 +147,7 @@ app.use("/api/products/add_product", require("./api/products/add_product"));
 app.use("/add_to_cart", require("./api/products/add_to_cart.js"));
 app.use("/remove_from_cart", require("./api/products/remove_from_cart"));
 app.use("/place_order", require("./api/products/place_order"));
+app.use("/add_to_stock", require("./api/products/add_to_stock"));
 //app.use('api/register/trader',require('./api/register/trader'));
 
 // mongouri mongodb+srv://bishtbeast:<password>@cluster0.jpqng.mongodb.net/myFirstDatabase?retryWrites=true&w=majority

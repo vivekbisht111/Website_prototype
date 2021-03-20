@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
         for (j = 0; j < ar.products.length; j++) {
           if (user.cart[i].pid === ar.products[j]._id.toString()) {
             if (user.cart[i].qty > ar.products[j].stock) {
-              res.send(
+              return res.send(
                 `Item : ${ar.products[j].name} from your cart is out of Stock...`
               );
             }
@@ -42,7 +42,7 @@ router.get("/", async (req, res) => {
       }
       user.cart.splice(0, user.cart.length);
       await user.save();
-      //res.clearCookie("jwt");
+      res.clearCookie("jwt");
       const token = await user.generateAuthToken();
       res.cookie("jwt", token, {
         expires: new Date(Date.now() + 120000),
